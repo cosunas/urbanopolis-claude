@@ -50,3 +50,8 @@ Claude lee el `CLAUDE.md` de ese negocio y su `ESTADO.md` antes de actuar.
 - `.claude/skills/` skills propias del holding
 - `rutinas/` prompts de tareas recurrentes (reportes semanales, seguimientos)
 - `_inbox/` notas rápidas por clasificar
+
+## Otras carpetas de Drive
+- `Personal/` — asuntos personales y familiares. Fuera del alcance del hub.
+- `_archivo/` — carpetas vacías o retiradas, con `LOG_movimientos.md` de cada reorganización.
+- `Grupo Berumen HUYNDAI BUSES/`, `Director Comercial Stelarhe/`, `Terrazas del Valle/` — proyectos por asignar a un negocio.

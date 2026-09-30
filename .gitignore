@@ -1,0 +1,7 @@
+.DS_Store
+*.key
+*.cer
+*.pfx
+*.p12
+.env*
+_inbox/privado/

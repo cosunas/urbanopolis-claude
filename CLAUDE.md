@@ -41,6 +41,28 @@ Raíz de Drive (personal) en la Mac:
 5. **Seguridad:** nunca copiar a este repo contraseñas, FIEL/CSD, constancias fiscales, identificaciones ni estados de cuenta. Solo se referencian por ruta.
 6. Al terminar una sesión de trabajo en un negocio, actualizar su `ESTADO.md` y, si hubo decisiones, `DECISIONES.md`.
 
+## Modo nube (Claude Code en claude.ai/code o app móvil)
+El hub vive en GitHub (`cosunas/urbanopolis-claude`). La nube clona el repo; la Mac y la nube
+se sincronizan **solo vía GitHub**.
+- En la nube **no existen** las rutas `/Users/...` ni `~/Proyectos`. Drive se lee con el
+  **conector Google Drive** (cuenta carlos.osuna.mx@gmail.com) usando los IDs de abajo.
+- En la Mac: `git pull` antes de trabajar y `git push` al terminar.
+- Claude en la nube trabaja en ramas `claude/...`; Carlos decide qué entra a `main`.
+
+| Carpeta Drive | ID (conector) |
+|---|---|
+| Casas Kali | `0B-RhfF3IkWscVU5rcC01Q3JLU0E` |
+| Casas Kali / INDIVI-SIDUR | `1wXecslO0DhVKVvWJuvTnkV72EBWhi_64` |
+| INDIVI-SIDUR / Programa INDIVI-INFONAVIT | `1sG7BDxrmIH_qY5n9MeebPfElnfKZ02Vo` |
+| INDIVI-SIDUR / Terrenos INDIVI | `1xdFmKDbftCxUfv3z7Xbmy-kJqRWTpNS_` |
+| ATENEA IA | `1kEhvzPLadUXNzYe3eKknFdzmgdbv1UFW` |
+| ACEITE IMPERIAL | `1kWWiJW0g7H7k02Z6rkYqFa6Tq7Zr3GVa` |
+| Sevilla Mia | `1BpLoRjJWiCQZgZweWl1cHJEMR6vFWI7u` |
+| DOMOHOME | `1_IPD2voYkP1VSBeb3S4JydN23o8f_pQU` |
+| Grupo Empresarial | `1Pt2MafBhtMA-hwD-V7sJyTXMsGh67EZF` |
+
+Prohibido abrir con el conector: `URBANOPOLIS GROUP CONTABILIDAD`, `Archivos Clave COS`, `Claves`.
+
 ## Cómo arrancar una sesión
 Abrir Claude Code en esta carpeta y decir, por ejemplo: "trabajemos INDIVI".
 Claude lee el `CLAUDE.md` de ese negocio y su `ESTADO.md` antes de actuar.

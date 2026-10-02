@@ -6,3 +6,4 @@
 - Brechas: no aparece en "consultoría IA noroeste (TJ/HMO)"; 0 menciones en Google AI Overview México.
 - Pendiente: landing regional noroeste, página industrial/maquila, menciones de terceros, rutina mensual.
 - Plan priorizado en `geo/2026-10-02_Plan_GEO_Dos_Mercados_v1.md` (8 semanas, ambos mercados).
+- Pendiente 2026-10-03 2 pm: revisar propuesta de dashboard (`geo/2026-10-02_Propuesta_Dashboard_GEO_v1.md`) y dar luz verde.

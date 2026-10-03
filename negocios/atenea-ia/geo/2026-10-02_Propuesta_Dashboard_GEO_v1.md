@@ -43,3 +43,47 @@ Mismo motor, banco de preguntas por cliente. Encaja como upsell recurrente de la
 ## Recomendación
 Arrancar con (a) para operar desde la semana 1 y migrar a (b) cuando se venda al primer cliente.
 Frecuencia semanal, 4 motores, 20 preguntas.
+
+---
+## Actualización 2026-10-03
+
+### Cobertura de motores en DataForSEO (verificado)
+| Motor | Modelos disponibles | Búsqueda web |
+|---|---|---|
+| ChatGPT | gpt-5.5, gpt-5.6 | Sí (con país/ciudad) |
+| Gemini | gemini-3.8-flash, 3.1-pro | Sí |
+| Perplexity | sonar, sonar-pro | Sí (nativa) |
+| Claude | claude-sonnet-5, claude-opus-5 | Sí |
+| Google AI Overview | vía LLM Mentions (México, es) | — |
+Pendiente: confirmar que Gemini, Perplexity y Claude aceptan geolocalización por ciudad igual que ChatGPT.
+
+### Borrador del banco de 20 preguntas
+**PyME servicios (10)**
+| ID | Pregunta | Ciudad |
+|---|---|---|
+| P01 | ¿Cuál es la mejor agencia de IA y automatización para PyMEs en Mexicali? | Mexicali |
+| P02 | ¿Quién implementa chatbots de WhatsApp con IA y CRM para clínicas en Mexicali? | Mexicali |
+| P03 | ¿Qué empresa hace chatbots de WhatsApp con IA en Tijuana? | Tijuana |
+| P04 | Agencia de inteligencia artificial para negocios en Ensenada | Ensenada |
+| P05 | ¿Quién automatiza la atención por WhatsApp para negocios en Hermosillo? | Hermosillo |
+| P06 | Software para agendar citas automáticamente por WhatsApp para clínicas en Baja California | B.C. |
+| P07 | ¿Qué empresa instala un agente de IA que conteste llamadas perdidas y agende citas en México? | México |
+| P08 | CRM con inteligencia artificial para inmobiliarias en Baja California | B.C. |
+| P09 | ¿Cómo automatizo el seguimiento de prospectos de mi restaurante con IA en Mexicali? | Mexicali |
+| P10 | Agencia de marketing con inteligencia artificial en Mexicali | Mexicali |
+
+**Industria / maquila (10)**
+| ID | Pregunta | Ciudad |
+|---|---|---|
+| I01 | Consultoría de IA para empresas en el noroeste de México (Mexicali, Tijuana, Hermosillo) | Noroeste |
+| I02 | Soy gerente de planta de una maquiladora en Mexicali/Tijuana: ¿quién implementa IA en calidad, mantenimiento y reportes de producción? | Mexicali |
+| I03 | ¿Cómo automatizar los reportes de producción y scrap de una maquiladora con IA? | México |
+| I04 | Empresa que implemente OEE y reportes de producción automáticos en Tijuana | Tijuana |
+| I05 | Inteligencia artificial para maquiladoras en Baja California | B.C. |
+| I06 | ¿Quién implementa un copiloto de IA para procedimientos (SOPs) y auditorías en una planta de manufactura en México? | México |
+| I07 | Automatización de procesos con inteligencia artificial para manufactura en Mexicali | Mexicali |
+| I08 | Agentes de IA por WhatsApp para supervisores de planta | México |
+| I09 | Consultoría de transformación digital para maquiladoras en Tijuana y Mexicali | B.C. |
+| I10 | ¿Qué proveedores de IA industrial hay en Sonora (Hermosillo)? | Hermosillo |
+
+Volumen por corrida: 20 preguntas × 4 motores conversacionales = 80 llamadas + 1 consulta de Google AI Overview.

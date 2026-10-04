@@ -3,5 +3,8 @@
     "additionalDirectories": [
       "/Users/carlososunasanchez/Library/CloudStorage/GoogleDrive-carlos.osuna.mx@gmail.com/Mi unidad"
     ]
+  },
+  "enabledPlugins": {
+    "cc-plugin-you-should-know@builtin": true
   }
 }

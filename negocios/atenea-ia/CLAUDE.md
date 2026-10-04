@@ -8,4 +8,4 @@ Consultoría de IA y marketing de performance (ATENEA IMPULSA). Factura IARE ASE
 - Código: `~/Proyectos/atenea-demos`, `~/Proyectos/ateneaia-web` (org GitHub ATENEA-IA)
 
 ## Estado
-Ver `ESTADO.md` (por crear en la primera sesión de trabajo de este negocio).
+Ver `ESTADO.md` y `DECISIONES.md`. Playbooks en `playbooks/`.

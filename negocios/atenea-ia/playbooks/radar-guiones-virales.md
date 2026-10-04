@@ -22,15 +22,15 @@ en Motion Studios / Media Content.
 - Partes (cada 3–5 s) · Ritmo (cortes por minuto) · Texto en pantalla
 - Llamada a la acción · Por qué funciona (1 línea) · Cómo adaptarlo a nuestra marca o la del cliente
 
-## Piloto interno (4 semanas)
-| Cuenta | Vertical de referencia | Guiones por semana |
+## Piloto interno (ATENEA IA primero)
+| Fase | Cuenta | Qué se hace |
 |---|---|---|
-| ATENEA IA | IA / automatización para PyMEs | 3 |
-| Casas Kali | Inmobiliario Mexicali / BC | 3 |
+| Semana 0 | ATENEA IA | Sacar de Metricool el promedio de los últimos 60–90 días. Si no hay historial, las 2 primeras semanas se publica normal y eso queda como punto de partida |
+| Semanas 1–4 | ATENEA IA | 3 guiones por semana hechos con el Radar |
+| Después | Casas Kali | Solo si ATENEA alcanzó la meta |
 
-**Criterio de éxito:** que los reels hechos con el Radar superen el promedio de las últimas 8 semanas
-en retención a 3 s **y** en guardados+compartidos por cada 1,000 vistas en ≥ 20 %.
-Si no se logra, no se vende.
+**Meta para venderlo:** que los reels hechos con el Radar superen el punto de partida en ≥ 20 % en retención a 3 s
+**y** en guardados+compartidos por cada 1,000 vistas. Si no se logra, no se vende.
 
 ## Cómo se vendería
 - **Extra** para clientes que ya tienen manejo de redes: más retención y "contenido que se basa en lo que ya funciona".

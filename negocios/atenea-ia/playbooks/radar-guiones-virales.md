@@ -9,7 +9,7 @@ en Motion Studios / Media Content.
 | Paso | Herramienta | Salida |
 |---|---|---|
 | 1. Encontrar | Revisión manual de cuentas de referencia + Firecrawl / Nimble | 10 links por vertical por semana |
-| 2. Bajar | Cobalt (piloto) → yt-dlp en su propio servidor (fase 2). En YouTube se saca el subtítulo directo | Audio o MP4 |
+| 2. Bajar | Cobalt desde el navegador en cobalt.tools, sin instalar nada (piloto) → yt-dlp en su propio servidor (fase 2). En YouTube se saca el subtítulo directo | Audio o MP4 |
 | 3. Transcribir | `audio_transcribe` (conector ATENEA Video/Imagen FAL) | Texto con tiempos |
 | 4. Desarmar | Claude | Ficha de guion (plantilla abajo) |
 | 5. Adaptar | `atenea-motion-studios` / `atenea-media-content` | 3 guiones propios + tarjeta de producción |
@@ -29,8 +29,8 @@ en Motion Studios / Media Content.
 | Semanas 1–4 | ATENEA IA | 3 guiones por semana hechos con el Radar |
 | Después | Casas Kali | Solo si ATENEA alcanzó la meta |
 
-**Meta para venderlo:** que los reels hechos con el Radar superen el punto de partida en ≥ 20 % en retención a 3 s
-**y** en guardados+compartidos por cada 1,000 vistas. Si no se logra, no se vende.
+**Meta para venderlo:** ver `radar-baseline-atenea.md`. Retención a 3 s ≥ 20 %, tiempo visto ≥ 4 s, ≥ 50 % de reels con guardados o compartidos.
+Si no se logra, no se vende.
 
 ## Cómo se vendería
 - **Extra** para clientes que ya tienen manejo de redes: más retención y "contenido que se basa en lo que ya funciona".

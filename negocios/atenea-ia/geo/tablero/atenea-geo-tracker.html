@@ -82,6 +82,24 @@ select,input,textarea{background:var(--bg);border:1px solid var(--line);border-r
 tr.done td{color:var(--muted)}
 .prog{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:13px;color:var(--muted)}
 .prog .bar{width:200px}
+.acts{display:grid;gap:8px}
+.act{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
+.act.done{opacity:.6}
+.act summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px}
+.act summary::-webkit-details-marker{display:none}
+.act summary:focus-visible{outline:2px solid var(--bronze);outline-offset:-2px;border-radius:10px}
+.prio{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--bronze);text-align:center;font-variant-numeric:tabular-nums}
+.act h3{margin:0;font-size:14px;font-weight:600;line-height:1.35}
+.act .facts{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted);margin-top:4px}
+.act .body{padding:0 14px 14px 66px;display:grid;gap:10px}
+@media (max-width:560px){.act .body{padding-left:14px}.act summary{grid-template-columns:32px minmax(0,1fr)}.act summary .st{grid-column:2}}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.steps label{display:flex;gap:8px;align-items:flex-start;font-size:13px;cursor:pointer}
+.steps input{margin-top:3px;accent-color:var(--bronze)}
+.steps .ok span{text-decoration:line-through;color:var(--muted)}
+.donewhen{font-size:12px;border-left:3px solid var(--bronze);padding:4px 10px;background:var(--bronze-soft);border-radius:0 6px 6px 0}
+.mini{height:4px;width:80px;background:var(--line);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle}
+.mini i{display:block;height:100%;background:var(--bronze)}
 .log{display:grid;gap:10px;margin:0;padding:0;list-style:none}
 .log li{display:grid;grid-template-columns:96px 1fr;gap:12px;font-size:13px}
 .log time{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
@@ -97,7 +115,7 @@ form.inline textarea{flex:1 1 280px;min-height:38px}
     <div>
       <div class="eyebrow">ATENEA IA · Posicionamiento en respuestas de IA</div>
       <h1>GEO Tracker <span>Noroeste</span></h1>
-      <p class="sub">¿Nos recomiendan ChatGPT, Gemini, Perplexity y Claude cuando un cliente pregunta? Medición semanal, plan de acción e histórico.</p>
+      <p class="sub">¿Nos recomiendan ChatGPT, Gemini, Perplexity y Claude cuando un cliente pregunta? Medición quincenal, plan de acción priorizado e histórico.</p>
     </div>
     <div class="meta" id="meta">Cargando datos…</div>
   </header>
@@ -134,11 +152,11 @@ form.inline textarea{flex:1 1 280px;min-height:38px}
 
   <section aria-labelledby="a-h">
     <div class="sec-head"><h2 id="a-h">Plan de acción</h2><div class="prog" id="aprog"></div></div>
-    <div class="panel scroll"><table id="acts"></table></div>
+    <div class="acts" id="acts"></div>
     <form class="inline w panel" id="newact">
       <input id="na-t" placeholder="Nueva acción" required style="flex:1 1 260px">
       <select id="na-m"><option>PyME</option><option>Industria</option><option>Ambos</option></select>
-      <input id="na-s" type="number" min="1" max="52" placeholder="Sem" style="width:70px">
+      <input id="na-s" placeholder="Sem" style="width:70px">
       <input id="na-r" placeholder="Responsable" style="width:140px">
       <button class="btn" type="submit">Agregar</button>
     </form>
@@ -245,12 +263,19 @@ function renderMatrix(){
 
 const ESTADOS=[["pendiente","Pendiente"],["en_curso","En curso"],["hecho","Hecho"],["bloqueado","Bloqueado"]];
 function renderActs(){
-  const a=[...S.acts].sort((x,y)=>(x.semana||99)-(y.semana||99)||String(x.titulo).localeCompare(y.titulo));
+  const a=[...S.acts].sort((x,y)=>(x.prioridad??99)-(y.prioridad??99));
   const done=a.filter(x=>x.estado==="hecho").length;
-  $("#aprog").innerHTML=`<span>${done}/${a.length} hechas</span><span class="bar"><i style="width:${a.length?100*done/a.length:0}%"></i></span>`;
-  if(!a.length){$("#acts").innerHTML='<tr><td class="empty">Sin acciones. Agrega la primera abajo.</td></tr>';return}
-  $("#acts").innerHTML=`<thead><tr><th>Sem</th><th>Acción</th><th>Mercado</th><th>Mueve</th><th>Impacto</th><th>Responsable</th><th>Estado</th></tr></thead><tbody>`+
-    a.map(x=>`<tr class="${x.estado==="hecho"?"done":""}"><td>${x.semana??""}</td><td style="min-width:240px">${esc(x.titulo)}</td><td><span class="tag ${x.mercado==="Ambos"?"":x.mercado}">${esc(x.mercado)}</span></td><td style="font-family:var(--f-mono);font-size:12px">${esc((x.prompts||[]).join(", "))}</td><td>${esc(x.impacto||"")}</td><td>${esc(x.responsable||"")}</td><td>${S.canWrite?`<select class="state ${x.estado}" data-id="${esc(x._id)}" aria-label="Estado de ${esc(x.titulo)}">${ESTADOS.map(([v,l])=>`<option value="${v}" ${x.estado===v?"selected":""}>${l}</option>`).join("")}</select>`:`<span class="state ${x.estado}">${(ESTADOS.find(e=>e[0]===x.estado)||[,x.estado])[1]}</span>`}</td></tr>`).join("")+"</tbody>";
+  $("#aprog").innerHTML=`<span>${done}/${a.length} hechas · en orden de prioridad</span><span class="bar"><i style="width:${a.length?100*done/a.length:0}%"></i></span>`;
+  if(!a.length){$("#acts").innerHTML='<div class="empty">Sin acciones. Agrega la primera abajo.</div>';return}
+  const open=new Set([...document.querySelectorAll("#acts details[open]")].map(d=>d.dataset.id));
+  $("#acts").innerHTML=a.map(x=>{
+    const pasos=x.pasos||[], ok=new Set(x.pasos_ok||[]);
+    const st=S.canWrite?`<select class="state ${x.estado}" data-id="${esc(x._id)}" aria-label="Estado de ${esc(x.titulo)}">${ESTADOS.map(([v,l])=>`<option value="${v}" ${x.estado===v?"selected":""}>${l}</option>`).join("")}</select>`:`<span class="state ${x.estado}">${(ESTADOS.find(e=>e[0]===x.estado)||[,x.estado])[1]}</span>`;
+    return `<details class="act ${x.estado==="hecho"?"done":""}" data-id="${esc(x._id)}" ${open.has(x._id)?"open":""}>
+      <summary><span class="prio">${x.prioridad??"·"}</span><div><h3>${esc(x.titulo)}</h3><div class="facts"><span class="tag ${x.mercado==="Ambos"?"":esc(x.mercado)}">${esc(x.mercado)}</span><span>Sem ${esc(x.semana??"—")}</span><span>Impacto ${esc(x.impacto||"—")}</span><span>Dificultad ${esc(x.dificultad||"—")}</span><span>${esc(x.tiempo||"")}</span>${pasos.length?`<span><span class="mini"><i style="width:${100*ok.size/pasos.length}%"></i></span> ${ok.size}/${pasos.length} pasos</span>`:""}</div></div><span class="st state ${x.estado}">${(ESTADOS.find(e=>e[0]===x.estado)||[,x.estado])[1]}</span></summary>
+      <div class="body"><div class="note">Estado: ${st}</div>${pasos.length?`<ul class="steps">${pasos.map((p,i)=>`<li class="${ok.has(i)?"ok":""}"><label><input type="checkbox" data-act="${esc(x._id)}" data-i="${i}" ${ok.has(i)?"checked":""} ${S.canWrite?"":"disabled"}><span>${esc(p)}</span></label></li>`).join("")}</ul>`:""}
+      ${x.hecho_cuando?`<div class="donewhen"><b>Hecha cuando:</b> ${esc(x.hecho_cuando)}</div>`:""}
+      ${(x.prompts||[]).length?`<div class="note">Mueve las preguntas: <span style="font-family:var(--f-mono)">${esc(x.prompts.join(", "))}</span> · Responsable: ${esc(x.responsable||"")}</div>`:""}</div></details>`}).join("");
 }
 function renderLog(){
   const l=[...S.log].sort((a,b)=>String(b.fecha).localeCompare(a.fecha)||String(b.ts||"").localeCompare(a.ts||""));
@@ -271,10 +296,18 @@ $("#acts").addEventListener("change",async e=>{
     if(estado==="hecho"){const a=S.acts.find(x=>x._id===id); await S.db.collection("bitacora").add({fecha:today,texto:"Hecho: "+(a?.titulo||id),accion_hecha:id,ts:new Date().toISOString()})}
   }catch(err){readOnly()}
 });
+$("#acts").addEventListener("change",async e=>{
+  const c=e.target.closest("input[data-act]"); if(!c||!S.db) return;
+  const a=S.acts.find(x=>x._id===c.dataset.act); if(!a) return;
+  const ok=new Set(a.pasos_ok||[]); const i=Number(c.dataset.i); c.checked?ok.add(i):ok.delete(i);
+  const upd={pasos_ok:[...ok].sort((x,y)=>x-y)};
+  if(a.estado==="pendiente"&&ok.size) upd.estado="en_curso";
+  try{await S.db.doc("acciones/"+a._id).update(upd)}catch(err){readOnly()}
+});
 $("#newact").addEventListener("submit",async e=>{
   e.preventDefault(); if(!S.db) return;
   const t=$("#na-t").value.trim(); if(!t) return;
-  try{await S.db.collection("acciones").add({titulo:t,mercado:$("#na-m").value,semana:Number($("#na-s").value)||null,responsable:$("#na-r").value.trim()||"Carlos",estado:"pendiente",impacto:"",prompts:[]});e.target.reset()}catch(err){readOnly()}
+  try{await S.db.collection("acciones").add({titulo:t,mercado:$("#na-m").value,semana:$("#na-s").value.trim()||null,responsable:$("#na-r").value.trim()||"Carlos",estado:"pendiente",impacto:"",prompts:[],pasos:[],pasos_ok:[],prioridad:S.acts.length+1});e.target.reset()}catch(err){readOnly()}
 });
 $("#newlog").addEventListener("submit",async e=>{
   e.preventDefault(); if(!S.db) return;

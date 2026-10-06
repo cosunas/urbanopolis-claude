@@ -1,6 +1,6 @@
-# Rutina: Medición semanal GEO — ATENEA IA
+# Rutina: Medición quincenal GEO — ATENEA IA
 
-Corre cada lunes 7:00 am (Mexicali). Alimenta el tablero **ATENEA GEO Tracker**:
+Corre los días 1 y 16 de cada mes, 6:52 am (Mexicali). Requiere el conector DataForSEO en la rutina. Alimenta el tablero **ATENEA GEO Tracker**:
 https://claude.ai/artifact/GSyxzJ7vx5wEuYDgicHKdU
 
 ## Pasos

@@ -13,5 +13,5 @@
 - Línea base (20 preguntas × 4 motores): PyME 15% (6/40), Industria 3% (1/40), Google AI Overview 0.
   - ChatGPT 5/20 (#1 en P01, primera aparición industrial en I07) · Perplexity 2/20 · Gemini 0/20 · Claude 0/20.
   - Competidores más recomendados: IAIndustrial, Prodensa, GH Specialist, ARKA, Enlace Autómata.
-- Rutina semanal creada (lunes 6:52 am, Mexicali), runbook en `rutinas/atenea-geo-medicion-semanal.md`.
+- Rutina quincenal (días 1 y 16, 6:52 am Mexicali), runbook en `rutinas/atenea-geo-medicion-quincenal.md`. Tablero fijado en la barra lateral.
 - Pendiente de Carlos: agregar el conector DataForSEO a la rutina en claude.ai (se creó sin conectores).

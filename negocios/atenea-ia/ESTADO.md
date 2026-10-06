@@ -14,5 +14,5 @@
   - ChatGPT 5/20 (#1 en P01, primera aparición industrial en I07) · Perplexity 2/20 · Gemini 0/20 · Claude 0/20.
   - Competidores más recomendados: IAIndustrial, Prodensa, GH Specialist, ARKA, Enlace Autómata.
 - Rutina quincenal (días 1 y 16, 6:52 am Mexicali), runbook en `rutinas/atenea-geo-medicion-quincenal.md`. Tablero fijado en la barra lateral.
-- Pendiente de Carlos: agregar el conector DataForSEO a la rutina en claude.ai (se creó sin conectores).
+- Conector DataForSEO agregado a la rutina (verificado 2026-10-06). Próxima corrida: 2026-10-16.
 - Google Maps (línea base 6-oct): ATENEA #2 en "agencia de inteligencia artificial" Mexicali (3 reseñas vs 25 del #1); ausente en las otras 23 combinaciones. Acción #1 del plan: perfil de Google Business (servicios, reseñas, publicaciones).

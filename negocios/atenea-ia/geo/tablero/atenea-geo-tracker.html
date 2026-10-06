@@ -1,0 +1,298 @@
+<title>ATENEA GEO Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: control-room column — KPIs, tendencia, matriz pregunta×motor, competidores, plan de acción, bitácora */
+:root{
+  --bg:#F6F3EC; --surface:#FFFFFF; --ink:#141311; --muted:#6B655B; --line:#E2DCCF;
+  --bronze:#8E6E3E; --bronze-soft:#EFE5D3;
+  --good:#2F7A4F; --good-soft:#E1F0E6; --warn:#A86A12; --warn-soft:#F6EAD3; --bad:#B23B2E; --bad-soft:#F6E0DC;
+  --pyme:#8E6E3E; --ind:#3E5C7A;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12110F; --surface:#1B1A17; --ink:#EEE9DF; --muted:#A39C8F; --line:#2E2B26;
+  --bronze:#C9A26A; --bronze-soft:#2E2618;
+  --good:#6FC291; --good-soft:#18291F; --warn:#E0A54A; --warn-soft:#2E2414; --bad:#EE8577; --bad-soft:#331C18;
+  --pyme:#C9A26A; --ind:#86A9CC; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12110F; --surface:#1B1A17; --ink:#EEE9DF; --muted:#A39C8F; --line:#2E2B26;
+  --bronze:#C9A26A; --bronze-soft:#2E2618;
+  --good:#6FC291; --good-soft:#18291F; --warn:#E0A54A; --warn-soft:#2E2414; --bad:#EE8577; --bad-soft:#331C18;
+  --pyme:#C9A26A; --ind:#86A9CC; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 64px;display:grid;gap:28px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,4vw,36px);margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1 span{color:var(--bronze)}
+h2{font-family:var(--f-display);font-weight:500;font-size:19px;margin:0}
+.sub{color:var(--muted);margin:4px 0 0}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:right}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+section{display:grid;gap:12px;min-width:0}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px;min-width:0}
+.kpi .v{font-family:var(--f-display);font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi .t{font-size:12px;color:var(--muted)}
+.delta{font-family:var(--f-mono);font-size:12px}
+.delta.up{color:var(--good)} .delta.down{color:var(--bad)} .delta.flat{color:var(--muted)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--bronze)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.grid2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+td.q{min-width:260px;max-width:420px}
+td.c{text-align:center;white-space:nowrap}
+.chip{display:inline-block;min-width:34px;padding:2px 8px;border-radius:999px;font-family:var(--f-mono);font-size:12px;font-weight:500;text-align:center}
+.chip.top{background:var(--good-soft);color:var(--good)}
+.chip.mid{background:var(--warn-soft);color:var(--warn)}
+.chip.none{background:var(--bad-soft);color:var(--bad)}
+.chip.na{background:transparent;color:var(--muted);border:1px dashed var(--line)}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;font-weight:600;letter-spacing:.02em}
+.tag.PyME{background:var(--bronze-soft);color:var(--pyme)}
+.tag.Industria{background:color-mix(in srgb,var(--ind) 14%,transparent);color:var(--ind)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+svg text{fill:var(--muted);font-family:var(--f-mono);font-size:11px}
+.comp{display:grid;gap:6px}
+.comp-row{display:grid;grid-template-columns:minmax(0,150px) 1fr 34px;gap:8px;align-items:center;font-size:13px}
+.comp-row .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.comp-row .b{height:10px;background:var(--line);border-radius:2px;overflow:hidden}
+.comp-row .b i{display:block;height:100%;background:var(--muted)}
+.comp-row.me .n{font-weight:600;color:var(--bronze)}
+.comp-row.me .b i{background:var(--bronze)}
+.comp-row .k{font-family:var(--f-mono);font-size:12px;text-align:right;color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+button,select,input,textarea{font:inherit;color:inherit}
+.seg{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
+.seg[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+select,input,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:13px;max-width:100%}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:6px;padding:7px 14px;font-weight:600;font-size:13px;cursor:pointer}
+.state{font-size:12px;padding:3px 6px}
+.state.hecho{color:var(--good)} .state.bloqueado{color:var(--bad)} .state.en_curso{color:var(--warn)}
+tr.done td{color:var(--muted)}
+.prog{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:13px;color:var(--muted)}
+.prog .bar{width:200px}
+.log{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.log li{display:grid;grid-template-columns:96px 1fr;gap:12px;font-size:13px}
+.log time{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+form.inline{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+form.inline textarea{flex:1 1 280px;min-height:38px}
+.empty{color:var(--muted);font-size:13px;padding:12px 0}
+.note{font-size:12px;color:var(--muted)}
+.ro .w{display:none}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <div>
+      <div class="eyebrow">ATENEA IA · Posicionamiento en respuestas de IA</div>
+      <h1>GEO Tracker <span>Noroeste</span></h1>
+      <p class="sub">¿Nos recomiendan ChatGPT, Gemini, Perplexity y Claude cuando un cliente pregunta? Medición semanal, plan de acción e histórico.</p>
+    </div>
+    <div class="meta" id="meta">Cargando datos…</div>
+  </header>
+
+  <section aria-labelledby="k-h">
+    <div class="sec-head"><h2 id="k-h">Indicadores</h2><span class="note" id="k-note"></span></div>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section aria-labelledby="t-h">
+    <div class="grid2">
+      <div class="panel" style="display:grid;gap:10px">
+        <div class="sec-head"><h2 id="t-h">Tendencia de visibilidad</h2>
+          <div class="legend"><span><b style="background:var(--pyme)"></b>PyME</span><span><b style="background:var(--ind)"></b>Industria</span><span>meta punteada</span></div></div>
+        <div id="trend"></div>
+      </div>
+      <div class="panel" style="display:grid;gap:10px">
+        <div class="sec-head"><h2>Competidores más recomendados</h2><span class="note">última medición</span></div>
+        <div class="comp" id="comp"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="m-h">
+    <div class="sec-head"><h2 id="m-h">Pregunta × motor</h2>
+      <div class="filters" id="mfilters">
+        <button class="seg" aria-pressed="true" data-m="all">Todas</button>
+        <button class="seg" aria-pressed="false" data-m="PyME">PyME</button>
+        <button class="seg" aria-pressed="false" data-m="Industria">Industria</button>
+      </div></div>
+    <div class="legend"><span><span class="chip top">#1–3</span> top 3</span><span><span class="chip mid">#4+</span> aparece</span><span><span class="chip none">—</span> no aparece</span><span><span class="chip na">·</span> sin dato</span></div>
+    <div class="panel scroll"><table id="matrix"></table></div>
+  </section>
+
+  <section aria-labelledby="a-h">
+    <div class="sec-head"><h2 id="a-h">Plan de acción</h2><div class="prog" id="aprog"></div></div>
+    <div class="panel scroll"><table id="acts"></table></div>
+    <form class="inline w panel" id="newact">
+      <input id="na-t" placeholder="Nueva acción" required style="flex:1 1 260px">
+      <select id="na-m"><option>PyME</option><option>Industria</option><option>Ambos</option></select>
+      <input id="na-s" type="number" min="1" max="52" placeholder="Sem" style="width:70px">
+      <input id="na-r" placeholder="Responsable" style="width:140px">
+      <button class="btn" type="submit">Agregar</button>
+    </form>
+  </section>
+
+  <section aria-labelledby="b-h">
+    <div class="sec-head"><h2 id="b-h">Bitácora</h2><span class="note">qué se hizo y qué movió</span></div>
+    <form class="inline w" id="newlog">
+      <textarea id="nl-t" placeholder="Ej. Publicamos la landing industrial; I02 entró al #4 en ChatGPT" required></textarea>
+      <button class="btn" type="submit">Registrar</button>
+    </form>
+    <ul class="log" id="log"></ul>
+  </section>
+  <p class="note">Fuente: DataForSEO (LLM Responses con búsqueda web geolocalizada en México + LLM Mentions de Google AI Overview). Cada corrida se guarda como snapshot; nada se sobrescribe.</p>
+</div>
+
+<script>
+const ENGINES=[["chatgpt","ChatGPT"],["gemini","Gemini"],["perplexity","Perplexity"],["claude","Claude"]];
+const META={PyME:70,Industria:25};
+const S={prompts:[],runs:[],acts:[],log:[],filter:"all",db:null,canWrite:true};
+const $=s=>document.querySelector(s);
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtDate=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"})}catch(e){return d}};
+
+function stats(run,mercado){
+  if(!run) return null;
+  const ids=new Set(S.prompts.filter(p=>!mercado||p.mercado===mercado).map(p=>p.id));
+  const rows=(run.results||[]).filter(r=>ids.has(r.id)&&!r.error);
+  if(!rows.length) return {vis:null,pos:null,n:0};
+  const hit=rows.filter(r=>r.appears);
+  const pos=hit.filter(r=>r.position).map(r=>r.position);
+  return {vis:Math.round(100*hit.length/rows.length),pos:pos.length?(pos.reduce((a,b)=>a+b,0)/pos.length):null,n:rows.length,hits:hit.length};
+}
+function sov(run){
+  if(!run) return null; let me=0,tot=0;
+  (run.results||[]).forEach(r=>{(r.brands||[]).forEach(b=>{tot++; if(/atenea/i.test(b)) me++;})});
+  return tot?Math.round(1000*me/tot)/10:null;
+}
+function urls(run){const s=new Set();(run?.results||[]).forEach(r=>(r.atenea_urls||[]).forEach(u=>s.add(u.replace(/[?#].*$/,"").replace(/\/$/,""))));return s.size}
+function delta(a,b,suffix="",invert=false){
+  if(a==null||b==null) return '<span class="delta flat">sin comparativo</span>';
+  const d=Math.round((a-b)*10)/10; if(d===0) return '<span class="delta flat">= vs. anterior</span>';
+  const good=invert?d<0:d>0;
+  return `<span class="delta ${good?"up":"down"}">${d>0?"▲":"▼"} ${Math.abs(d)}${suffix} vs. anterior</span>`;
+}
+
+function renderKPIs(){
+  const [cur,prev]=[S.runs[0],S.runs[1]];
+  if(!cur){$("#kpis").innerHTML='<div class="empty">Aún no hay mediciones. La primera corrida aparecerá aquí en cuanto se registre.</div>';return}
+  const p=stats(cur,"PyME"),i=stats(cur,"Industria"),pp=stats(prev,"PyME"),pi=stats(prev,"Industria"),all=stats(cur);
+  const done=S.acts.filter(a=>a.estado==="hecho").length;
+  const k=[
+    {t:"Visibilidad PyME",v:p.vis==null?"—":p.vis+"%",d:delta(p.vis,pp?.vis," pts"),bar:p.vis,goal:META.PyME,foot:`meta ${META.PyME}% · ${p.hits}/${p.n} respuestas`},
+    {t:"Visibilidad Industria",v:i.vis==null?"—":i.vis+"%",d:delta(i.vis,pi?.vis," pts"),bar:i.vis,goal:META.Industria,foot:`meta ${META.Industria}% · ${i.hits}/${i.n} respuestas`},
+    {t:"Posición promedio",v:all.pos==null?"—":"#"+all.pos.toFixed(1),d:delta(all.pos,stats(prev)?.pos,"",true),foot:"cuando aparece · meta top 3 PyME / top 5 Industria"},
+    {t:"Share of voice",v:sov(cur)==null?"—":sov(cur)+"%",d:delta(sov(cur),sov(prev)," pts"),foot:"menciones ATENEA / marcas recomendadas"},
+    {t:"Google AI Overview",v:cur.aio_mentions??"—",d:delta(cur.aio_mentions,prev?.aio_mentions),foot:"menciones de ateneaia.mx · meta ≥3"},
+    {t:"Páginas citadas",v:urls(cur),d:delta(urls(cur),prev?urls(prev):null),foot:"URLs de ateneaia.mx usadas como fuente · meta ≥6"},
+    {t:"Plan de acción",v:S.acts.length?Math.round(100*done/S.acts.length)+"%":"—",d:`<span class="delta flat">${done} de ${S.acts.length} hechas</span>`,bar:S.acts.length?100*done/S.acts.length:0,foot:"meta ≥80% a tiempo"}
+  ];
+  $("#kpis").innerHTML=k.map(x=>`<div class="kpi"><div class="t">${x.t}</div><div class="v">${x.v}</div>${x.d}${x.bar!=null?`<div class="bar" title="avance"><i style="width:${Math.min(100,x.goal?100*x.bar/x.goal:x.bar)}%"></i></div>`:""}<div class="t">${x.foot}</div></div>`).join("");
+  $("#k-note").textContent=`Medición del ${fmtDate(cur.date)}`+(prev?` · comparada con ${fmtDate(prev.date)}`:" · línea base");
+}
+
+function renderTrend(){
+  const runs=[...S.runs].reverse();
+  if(!runs.length){$("#trend").innerHTML='<div class="empty">La tendencia arranca con la línea base.</div>';return}
+  const W=640,H=220,L=36,R=16,T=12,B=28,iw=W-L-R,ih=H-T-B;
+  const x=i=>L+(runs.length===1?iw/2:iw*i/(runs.length-1)), y=v=>T+ih*(1-v/100);
+  let g="";
+  [0,25,50,75,100].forEach(v=>{g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${v}%</text>`});
+  [["PyME","var(--pyme)"],["Industria","var(--ind)"]].forEach(([m,c])=>{
+    g+=`<line x1="${L}" x2="${W-R}" y1="${y(META[m])}" y2="${y(META[m])}" stroke="${c}" stroke-dasharray="4 4" stroke-width="1" opacity=".7"/>`;
+    const pts=runs.map((r,i)=>[x(i),stats(r,m).vis]).filter(p=>p[1]!=null);
+    if(pts.length>1) g+=`<polyline fill="none" stroke="${c}" stroke-width="2.5" points="${pts.map(p=>p[0]+","+y(p[1])).join(" ")}"/>`;
+    pts.forEach((p,i)=>{const last=i===pts.length-1;g+=`<circle cx="${p[0]}" cy="${y(p[1])}" r="${last?5:3.5}" fill="${c}"/>`; if(last) g+=`<text x="${p[0]+8}" y="${y(p[1])+4}" style="fill:${c};font-weight:600">${p[1]}%</text>`});
+  });
+  runs.forEach((r,i)=>{g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${esc(r.date.slice(5))}</text>`});
+  const marks=S.log.filter(l=>l.accion_hecha);
+  marks.forEach(l=>{const idx=runs.findIndex(r=>r.date>=l.fecha); if(idx>0){const xx=(x(idx-1)+x(idx))/2; g+=`<line x1="${xx}" x2="${xx}" y1="${T}" y2="${T+ih}" stroke="var(--bronze)" stroke-width="1" opacity=".5"><title>${esc(l.texto)}</title></line>`}});
+  $("#trend").innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Visibilidad por mercado en cada medición">${g}</svg>`;
+}
+
+function renderComp(){
+  const cur=S.runs[0]; if(!cur){$("#comp").innerHTML='<div class="empty">Sin datos todavía.</div>';return}
+  const c={}; const norm=b=>b.replace(/\s*\(.*?\)\s*/g,"").trim();
+  (cur.results||[]).forEach(r=>new Set((r.brands||[]).map(norm)).forEach(b=>{const k=/atenea/i.test(b)?"ATENEA IA":b;c[k]=(c[k]||0)+1}));
+  let list=Object.entries(c).sort((a,b)=>b[1]-a[1]);
+  const top=list.slice(0,10); if(!top.find(e=>e[0]==="ATENEA IA")) top.push(["ATENEA IA",c["ATENEA IA"]||0]);
+  const max=Math.max(1,...top.map(e=>e[1]));
+  $("#comp").innerHTML=top.map(([n,v])=>`<div class="comp-row ${n==="ATENEA IA"?"me":""}"><span class="n" title="${esc(n)}">${esc(n)}</span><span class="b"><i style="width:${100*v/max}%"></i></span><span class="k">${v}</span></div>`).join("")+`<div class="note">Respuestas (de ${(cur.results||[]).length}) en las que se recomienda cada marca.</div>`;
+}
+
+function renderMatrix(){
+  const cur=S.runs[0],prev=S.runs[1];
+  const ps=S.prompts.filter(p=>S.filter==="all"||p.mercado===S.filter).sort((a,b)=>a.id.localeCompare(b.id));
+  if(!ps.length){$("#matrix").innerHTML='<tr><td class="empty">Sin preguntas cargadas.</td></tr>';return}
+  const find=(run,id,e)=>(run?.results||[]).find(r=>r.id===id&&r.engine===e);
+  const chip=r=>{if(!r||r.error) return '<span class="chip na">·</span>'; if(!r.appears) return '<span class="chip none">—</span>'; const p=r.position; return `<span class="chip ${p&&p<=3?"top":"mid"}">${p?"#"+p:"✓"}</span>`};
+  const trendCell=p=>{const a=ENGINES.filter(([e])=>find(cur,p.id,e)?.appears).length,b=prev?ENGINES.filter(([e])=>find(prev,p.id,e)?.appears).length:null; return b==null?`${a}/4`:`${a}/4 ${a>b?'<span class="delta up">▲</span>':a<b?'<span class="delta down">▼</span>':""}`};
+  $("#matrix").innerHTML=`<thead><tr><th>ID</th><th>Pregunta</th><th>Ciudad</th>${ENGINES.map(e=>`<th class="c">${e[1]}</th>`).join("")}<th class="c">Total</th></tr></thead><tbody>`+
+    ps.map(p=>`<tr><td><span class="tag ${p.mercado}">${esc(p.id)}</span></td><td class="q">${esc(p.q)}</td><td>${esc(p.ciudad)}</td>${ENGINES.map(([e])=>`<td class="c">${chip(find(cur,p.id,e))}</td>`).join("")}<td class="c">${trendCell(p)}</td></tr>`).join("")+"</tbody>";
+}
+
+const ESTADOS=[["pendiente","Pendiente"],["en_curso","En curso"],["hecho","Hecho"],["bloqueado","Bloqueado"]];
+function renderActs(){
+  const a=[...S.acts].sort((x,y)=>(x.semana||99)-(y.semana||99)||String(x.titulo).localeCompare(y.titulo));
+  const done=a.filter(x=>x.estado==="hecho").length;
+  $("#aprog").innerHTML=`<span>${done}/${a.length} hechas</span><span class="bar"><i style="width:${a.length?100*done/a.length:0}%"></i></span>`;
+  if(!a.length){$("#acts").innerHTML='<tr><td class="empty">Sin acciones. Agrega la primera abajo.</td></tr>';return}
+  $("#acts").innerHTML=`<thead><tr><th>Sem</th><th>Acción</th><th>Mercado</th><th>Mueve</th><th>Impacto</th><th>Responsable</th><th>Estado</th></tr></thead><tbody>`+
+    a.map(x=>`<tr class="${x.estado==="hecho"?"done":""}"><td>${x.semana??""}</td><td style="min-width:240px">${esc(x.titulo)}</td><td><span class="tag ${x.mercado==="Ambos"?"":x.mercado}">${esc(x.mercado)}</span></td><td style="font-family:var(--f-mono);font-size:12px">${esc((x.prompts||[]).join(", "))}</td><td>${esc(x.impacto||"")}</td><td>${esc(x.responsable||"")}</td><td>${S.canWrite?`<select class="state ${x.estado}" data-id="${esc(x._id)}" aria-label="Estado de ${esc(x.titulo)}">${ESTADOS.map(([v,l])=>`<option value="${v}" ${x.estado===v?"selected":""}>${l}</option>`).join("")}</select>`:`<span class="state ${x.estado}">${(ESTADOS.find(e=>e[0]===x.estado)||[,x.estado])[1]}</span>`}</td></tr>`).join("")+"</tbody>";
+}
+function renderLog(){
+  const l=[...S.log].sort((a,b)=>String(b.fecha).localeCompare(a.fecha)||String(b.ts||"").localeCompare(a.ts||""));
+  $("#log").innerHTML=l.length?l.map(x=>`<li><time>${esc(x.fecha)}</time><span>${esc(x.texto)}</span></li>`).join(""):'<li class="empty">Sin registros todavía.</li>';
+}
+function renderAll(){
+  const cur=S.runs[0];
+  $("#meta").innerHTML=cur?`Última medición: ${fmtDate(cur.date)}<br>${S.runs.length} corrida${S.runs.length>1?"s":""} · ${(cur.results||[]).length} respuestas${cur.cost_usd!=null?` · USD ${Number(cur.cost_usd).toFixed(2)}`:""}`:"Sin mediciones todavía";
+  renderKPIs();renderTrend();renderComp();renderMatrix();renderActs();renderLog();
+}
+
+$("#mfilters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.filter=b.dataset.m;document.querySelectorAll("#mfilters .seg").forEach(x=>x.setAttribute("aria-pressed",x===b));renderMatrix()});
+$("#acts").addEventListener("change",async e=>{
+  const s=e.target.closest("select[data-id]"); if(!s||!S.db) return;
+  const id=s.dataset.id, estado=s.value, today=new Date().toISOString().slice(0,10);
+  try{
+    await S.db.doc("acciones/"+id).update({estado,fecha_estado:today});
+    if(estado==="hecho"){const a=S.acts.find(x=>x._id===id); await S.db.collection("bitacora").add({fecha:today,texto:"Hecho: "+(a?.titulo||id),accion_hecha:id,ts:new Date().toISOString()})}
+  }catch(err){readOnly()}
+});
+$("#newact").addEventListener("submit",async e=>{
+  e.preventDefault(); if(!S.db) return;
+  const t=$("#na-t").value.trim(); if(!t) return;
+  try{await S.db.collection("acciones").add({titulo:t,mercado:$("#na-m").value,semana:Number($("#na-s").value)||null,responsable:$("#na-r").value.trim()||"Carlos",estado:"pendiente",impacto:"",prompts:[]});e.target.reset()}catch(err){readOnly()}
+});
+$("#newlog").addEventListener("submit",async e=>{
+  e.preventDefault(); if(!S.db) return;
+  const t=$("#nl-t").value.trim(); if(!t) return;
+  try{await S.db.collection("bitacora").add({fecha:new Date().toISOString().slice(0,10),texto:t,ts:new Date().toISOString()});e.target.reset()}catch(err){readOnly()}
+});
+function readOnly(){S.canWrite=false;document.body.classList.add("ro");renderActs()}
+
+renderAll();
+(async()=>{
+  const db=await window.claude?.use?.("db");
+  if(!db){$("#meta").textContent="Vista sin conexión a datos";document.body.classList.add("ro");return}
+  S.db=db;
+  try{const u=await claude.use("user"); const w=u?await u.can("data.write"):null; if(w===false) readOnly()}catch(e){}
+  const err=()=>{};
+  db.collection("prompts").onSnapshot(s=>{S.prompts=s.docs.map(d=>({...d.data(),id:d.id}));renderAll()},err);
+  db.collection("runs").orderBy("date","desc").limit(60).onSnapshot(s=>{S.runs=s.docs.map(d=>({...d.data(),_id:d.id}));renderAll()},err);
+  db.collection("acciones").onSnapshot(s=>{S.acts=s.docs.map(d=>({...d.data(),_id:d.id}));renderKPIs();renderActs()},err);
+  db.collection("bitacora").onSnapshot(s=>{S.log=s.docs.map(d=>({...d.data(),_id:d.id}));renderLog();renderTrend()},err);
+})();
+</script>

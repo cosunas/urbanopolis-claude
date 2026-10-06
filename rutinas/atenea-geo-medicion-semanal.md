@@ -9,7 +9,7 @@ https://claude.ai/artifact/GSyxzJ7vx5wEuYDgicHKdU
    | engine | path | model_name | geolocalización |
    |---|---|---|---|
    | chatgpt | /v3/ai_optimization/chat_gpt/llm_responses/live | gpt-5.5 | web_search true, web_search_country_iso_code "MX", web_search_city = ciudad |
-   | gemini | /v3/ai_optimization/gemini/llm_responses/live | gemini-3.5-flash | web_search true + la geolocalización que acepte el endpoint (MX) |
+   | gemini | /v3/ai_optimization/gemini/llm_responses/live | gemini-3.5-flash | web_search true (el endpoint no acepta país ni ciudad) |
    | perplexity | /v3/ai_optimization/perplexity/llm_responses/live | sonar-pro | web_search_country_iso_code "MX" (sin ciudad) |
    | claude | /v3/ai_optimization/claude/llm_responses/live | claude-sonnet-5 | web_search true + la geolocalización que acepte el endpoint (MX) |
    `max_output_tokens` 2048. Si una llamada falla, reintentar una vez; si vuelve a fallar, registrar `error`.

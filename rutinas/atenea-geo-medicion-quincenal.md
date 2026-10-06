@@ -15,6 +15,7 @@ https://claude.ai/artifact/GSyxzJ7vx5wEuYDgicHKdU
    `max_output_tokens` 2048. Si una llamada falla, reintentar una vez; si vuelve a fallar, registrar `error`.
 3. Por respuesta extraer: `appears` (texto menciona "ATENEA" o alguna cita apunta a ateneaia.mx), `position` (lugar de ATENEA entre las marcas recomendadas, por orden de primera mención; null si no aparece), `brands` (lista ordenada de empresas recomendadas, máx. 12, sin herramientas genéricas), `atenea_urls` (URLs de ateneaia.mx citadas, sin parámetros), `n_citations`, `cost`.
 4. Google AI Overview: POST /v3/ai_optimization/llm_mentions/search/live con `target:[{"domain":"ateneaia.mx","include_subdomains":true}]`, `location_name:"Mexico"`, `language_code:"es"`, `platform:"google"` → `aio_mentions` = total_count.
+4b. Google Maps (perfil de Google Business, cid 17264627538984276584): POST /v3/serp/google/maps/live/advanced, 6 búsquedas × 4 ciudades (ver prompt de la rutina) → `maps:[{keyword,ciudad,atenea_rank,n_results,top1,top1_votes}]`, `gbp_reviews`, `gbp_rating`.
 5. Guardar UNA corrida: `ArtifactData` → `set`, collection `runs`, doc_id `AAAA-MM-DD` (fecha de hoy), data:
    `{date, label:"Semanal", engines:{chatgpt:"gpt-5.5",...}, results:[{id,engine,model,appears,position,brands,atenea_urls,n_citations,cost,error}], aio_mentions, cost_usd (suma de costos conocidos o null), notes}`.
    Nunca sobrescribir corridas anteriores.

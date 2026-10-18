@@ -25,18 +25,24 @@ Clínicas: en cualquier modo corre el detector de software de agenda (AgendaPro,
 | 3B–3E. Señales extra | Sitio viejo (Sitio Espejo), ranking Maps/orgánico, software de clínicas | DataForSEO, Local Falcon (opcional), detector propio | — |
 | 4. Mensaje | Outreach por empresa y canal | Claude | — |
 | 5. Entregable | Tabla + CSV / workbook | Scripts del skill | — |
-| 6. Seguimiento | Toques hasta la cita | **Por implementar** (ver abajo) | — |
+| 6. Diagnóstico | El demo que se manda: lo único que sale antes de la cita y su meta es abrirla | **Demo Factory** (`diagnostico.ateneaia.mx`), logo del prospecto con Firecrawl | — |
+| 7. Seguimiento | Toques hasta agendar la cita | **Pipeline** (en construcción con Manuel, oct-2026) | — |
+| 8. Cita | Presentación de cita con la marca y colores del prospecto | `atenea-cita` (`/cita/<token>/`) | — |
+| 9. Presentación final / propuesta | Solo después de la cita | `atenea-propuesta-alto-calibre`, `biz-proposal-pro` | — |
+
+**Regla:** no se arma la presentación final sin cita. Antes de la cita solo se manda el diagnóstico.
 
 Costo de referencia: piloto Social de lotes de autos seminuevos en Mexicali, 31 negocios por $0.31 USD.
 
 ## Dónde entra Firecrawl
-- **Branding scrape** del prospecto para Demo Factory / Sitio Espejo (colores, tipografías y logo del sitio real).
+- **Logo del prospecto en el diagnóstico:** botón *Logo del prospecto (Firecrawl)* en `atenea-demos` (PR #189): toma el logo del sitio propio y deja un PR para revisarlo.
+- **Colores en la presentación de la cita:** `armar-cita.mjs` ya los saca del logo y, sin logo, de Firecrawl.
 - **Radar competitivo**: el mismo prospecto puede recibir como gancho un brief de su competencia (ver `radar-competitivo.md`).
 
-## Seguimiento (hueco actual)
-Hoy el prospector termina en un CSV: no hay un lugar donde se registre a quién se contactó, qué respondió y cuándo toca el siguiente toque.
+## Seguimiento
+Manuel está juntando el pipeline (oct-2026). Hasta entonces, el prospector termina en un CSV y el panel de Demo Factory registra aperturas del diagnóstico.
 
-Propuesta (pendiente de decisión de Carlos):
+Referencia de diseño (para cuando se integre):
 - **Tablero de pipeline** como página con base de datos (igual que la Mesa de aprobación de contenido): una fila por prospecto, que Claude puede leer y actualizar.
 - Columnas: empresa · vertical · plaza · score · canal · etapa · último contacto · siguiente toque · resultado · notas.
 - Etapas: nuevo → contactado → respondió → cita → propuesta → ganado / perdido.
